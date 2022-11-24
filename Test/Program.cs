@@ -11,7 +11,7 @@ public class Temperature
 
     public override string ToString()
     {
-        return this.temp.ToString("N1") + "°C";
+        return this.temp.ToString("N1") + "C";
     }
 }
 
