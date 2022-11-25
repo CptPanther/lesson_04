@@ -2,7 +2,6 @@
 using static System.Console;
 using System.Threading;
 using System.Diagnostics;
-using System.Runtime.Remoting.Messaging;
 
 internal class Program
 {
@@ -15,14 +14,18 @@ internal class Program
         Write("Укажите количество столбцов: ");
         byte colM = byte.Parse(ReadLine());
 
-        bool[,] genWorld = GenerateWorld(rowM, colM);
+        bool[,] curWorld = GenerateWorld(rowM, colM);
+        byte countIter = 0;
 
-        while (true)
+        while (countIter++ < 100)
         {
-            DrawWorld(genWorld);
-            ChangedWorld(genWorld);
+            DrawWorld(curWorld);
+            ChangedWorld(curWorld);
             Thread.Sleep(100);   
         }
+        SetCursorPosition(0, curWorld.GetLength(0)-2);
+        WriteLine("\nПрограмма завершена.");
+        ReadKey(true);
     }
 
     //Генерация мира.
@@ -116,17 +119,5 @@ internal class Program
             sourceWorld[0, posX] = sourceWorld[sourceWorld.GetLength(0) - 2, posX];
             sourceWorld[sourceWorld.GetLength(0) - 1, posX] = sourceWorld[1, posX];
         }
-    }
-
-    static bool GameOver(bool[,] sourceWorld)
-    {
-        for (byte row=1; row < sourceWorld.GetLength(0)-2; row++)
-            for (byte col=1; col< sourceWorld.GetLength(1)-2; col++)
-            {
-                if (sourceWorld[row, col] == true)
-                    return true;
-                
-            }
-        return false;
     }
 }
